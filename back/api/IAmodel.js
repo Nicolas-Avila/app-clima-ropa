@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import OpenAI from "openai";
-import { weather } from "./weather.js";
+import { obteinWeather } from "./weatheIp.js";
 
 dotenv.config();
 
@@ -12,13 +12,15 @@ const openai = new OpenAI({
 const conversationHistory = [];
 
 export async function clothingTemperature() {
-  const temperatura = await weather();
-
+//Ubicación: Avellaneda, Argentina Temperatura: 12.3°C
+  const temp = await obteinWeather()
   conversationHistory.push({
     role: "user",
-    content: `${temperatura} quiero que me digas una lista de la ropa que podría usar en la cabeza, en la parte superior, en la parte inferior y en los pies, de manera coloquial argentina. pero quiero que me dividas todo en un json para yo poder usarlo en una pagina web`,
+    content: `${temp} quiero que me digas una lista de la ropa que podría usar en la cabeza, en la parte superior, en la parte inferior y en los pies, de manera coloquial argentina. pero quiero que me dividas todo en un json para yo poder usarlo en una pagina web`,
   });
-
+  
+  console.log("------------------------")
+    console.log(temp)
   try {
     const chat = await openai.chat.completions.create({
       model: "deepseek/deepseek-r1:free",
